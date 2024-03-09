@@ -1,35 +1,33 @@
 {
+  // https://www.totaltypescript.com/tsconfig-cheat-sheet
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["ESNext"],
-    "allowJs": true,
-    "noEmit": true,
-    "skipLibCheck": true,
-    "incremental": true,
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "isolatedModules": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "allowSyntheticDefaultImports": true,
+    /* Base Options: */
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
     "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* Strictness */
     "strict": true,
-    "noImplicitAny": true,
-    "alwaysStrict": true,
-    "exactOptionalPropertyTypes": false,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "useUnknownInCatchVariables": true,
-    "noImplicitThis": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false
+
+    /* If transpiling with TypeScript: */
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "outDir": "dist",
+    "sourceMap": true,
+
+    /* AND if you're building for a library: */
+    "declaration": true,
+
+    /* If your code doesn't run in the DOM: */
+    "lib": ["es2022"],
+
+    "rootDir": "./",
+    "allowSyntheticDefaultImports": true
   }
 }

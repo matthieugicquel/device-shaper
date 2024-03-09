@@ -1,6 +1,7 @@
 type Query<TData> = {
   (): Promise<TData>;
   invalidate: () => void;
+  setData: (data: TData) => void;
 };
 
 type QueryState<TData> =
@@ -38,6 +39,10 @@ export const createQuery = <TData>(queryFn: () => Promise<TData>): Query<TData> 
 
   query.invalidate = () => {
     cache = { status: "idle" };
+  };
+
+  query.setData = (data: TData) => {
+    cache = { status: "success", data };
   };
 
   return query;

@@ -1,8 +1,9 @@
-import type {
-  DeviceDefinition,
-  DeviceTarget,
-  MatchedDeviceTarget,
-} from "./deviceShaper.types";
+import { createDebug } from "#std/debug";
+import { usageError } from "#std/error";
+
+import type { DeviceDefinition, DeviceTarget } from "./types";
+
+const debug = createDebug("match");
 
 /**
  * These items need to match perfectly, we won't be modifying them on existing devices
@@ -15,37 +16,16 @@ const immutableCharacteristics: (keyof DeviceDefinition)[] = [
   "osVersion",
 ];
 
-export type MatchSuccessResult = {
-  result: "match";
-  target: MatchedDeviceTarget;
-  device: DeviceDefinition;
-  problem?: undefined;
-};
-
-type MatchResult =
-  | MatchSuccessResult
-  | {
-      result: "must-create-device";
-      target: DeviceTarget;
-      device?: undefined;
-      problem: string;
-    }
-  | {
-      result: "impossible";
-      target: DeviceTarget;
-      device?: undefined;
-      problem: string;
-    };
-
 export const matchTargetToExisting = (
   target: DeviceTarget,
   existingDevices: DeviceDefinition[],
-): MatchResult => {
-  const deviceWithTargetUniqueId = target.uniqueId
-    ? existingDevices.find((device) => device.uniqueId === target.uniqueId)
-    : undefined;
+): string | undefined => {
+  const targetIdExists =
+    target.uniqueId && existingDevices.some((device) => device.uniqueId === target.uniqueId);
 
   let matches = [...existingDevices];
+
+  debug(`looking for matches in ${matches.length} devices`);
 
   for (const characteristic of immutableCharacteristics) {
     if (!target[characteristic]) continue;
@@ -54,37 +34,24 @@ export const matchTargetToExisting = (
       return device[characteristic] === target[characteristic];
     });
 
-    if (matches.length !== 0) continue;
+    debug(`${matches.length} potential matches after checking ${characteristic}`);
 
-    if (deviceWithTargetUniqueId) {
-      return {
-        result: "impossible",
-        target,
-
-        problem: `device with udid "${deviceWithTargetUniqueId.uniqueId}" exists but doesn't match ${characteristic} "${target[characteristic]}"`,
-      };
+    if (matches.length === 0 && targetIdExists) {
+      throw usageError(
+        `Device with udid "${target.uniqueId}" exists but doesn't match ${characteristic} "${target[characteristic]}"`,
+      );
     }
 
-    if (characteristic === "uniqueId") {
-      return {
-        result: "impossible",
-        target,
-
-        problem: `can't create a device with fixed udid "${target.uniqueId}"`,
-      };
+    if (matches.length === 0 && target.uniqueId) {
+      throw usageError(`Can't create a device with fixed udid "${target.uniqueId}"`);
     }
-
-    return {
-      result: "must-create-device",
-      target,
-
-      problem: `no match for ${characteristic} "${target[characteristic]}"`,
-    };
   }
 
   const match = matches[0];
 
-  if (!match) throw new Error("this should not happen");
+  if (!match) return undefined;
 
-  return { result: "match", target: { ...target, ...match }, device: match };
+  debug("found match with udid %s", match.uniqueId);
+
+  return match.uniqueId;
 };

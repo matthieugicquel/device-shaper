@@ -52,3 +52,6 @@ jobs:
 
       - name: ESLint
         run: yarn run test:lint
+
+      - name: Prettier
+        run: yarn run test:format

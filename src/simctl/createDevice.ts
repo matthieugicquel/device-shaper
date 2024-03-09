@@ -1,32 +1,49 @@
-import type { DeviceModel, OsVersion } from "../deviceShaper.types";
-import { fetchState } from "./fetchState";
-import { knownErrorWithoutStack } from "#vzr/utils/error";
-import { isRunCommandError, run } from "#vzr/utils/run";
+import * as R from "remeda";
 
-type CreateParams = {
-  model: DeviceModel;
-  name: string;
-  osVersion: OsVersion;
-};
+import { bug, fixYourInstall } from "#std/error";
+import { isRunCommandError, run } from "#std/run";
 
-export type CreateSuccessResult = {
-  result: "created";
-  uniqueId: string;
-};
+import type { DeviceId, DeviceTarget } from "../types";
+import { listSimulators } from "./queries/devices";
+import { listModels } from "./queries/models";
 
-export const createDevice = async (target: CreateParams): Promise<CreateSuccessResult> => {
-  const { name, model, osVersion } = target;
+export const createDevice = async (target: DeviceTarget): Promise<DeviceId> => {
+  if (target.platform !== "ios") {
+    throw bug("called simctl shaper to create non-iOS device");
+  }
 
-  const fullModel = `com.apple.CoreSimulator.SimDeviceType.${model}`;
+  const model = await (async () => {
+    if (target.model) {
+      return target.model;
+    }
 
-  const params = ["simctl", "create", name, fullModel, `ios${osVersion}`];
+    const models = await listModels();
+
+    const bestModel = R.last(models);
+
+    if (bestModel) {
+      return bestModel;
+    }
+
+    throw fixYourInstall("No iOS simulator models found");
+  })();
+
+  const { name, osVersion } = target;
+
+  const params = [
+    "simctl",
+    "create",
+    name ?? model,
+    `com.apple.CoreSimulator.SimDeviceType.${model}`,
+    target.osVersion ? `ios${osVersion}` : undefined,
+  ].filter(Boolean) as string[];
 
   try {
     const createdUDID = await run("xcrun", params);
 
-    fetchState.invalidate();
+    listSimulators.invalidate();
 
-    return { result: "created", uniqueId: createdUDID };
+    return { platform: "ios", uniqueId: createdUDID };
   } catch (error) {
     if (!isRunCommandError(error)) throw error;
 
@@ -42,7 +59,9 @@ export const createDevice = async (target: CreateParams): Promise<CreateSuccessR
        * xcrun simctl runtime add iOS_XX.Y_Simulator_Runtime.dmg
        * ```
        */
-      throw knownErrorWithoutStack("must-install-runtime", { osVersion: target.osVersion });
+      throw fixYourInstall(
+        `Runtime ${target.osVersion} is not installed. See https://developer.apple.com/documentation/xcode/installing-additional-simulator-runtimes`,
+      );
     }
 
     throw error;
