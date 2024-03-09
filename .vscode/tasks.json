@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": "yarn tsc",
+      "problemMatcher": ["$tsc"],
+      "group": "test",
+      "label": "Typecheck"
+    },
+    {
+      "type": "shell",
+      "command": "yarn tsc --watch",
+      "problemMatcher": ["$tsc-watch"],
+      "group": "test",
+      "label": "Typecheck - watch"
+    },
+    {
+      "type": "shell",
+      "command": "yarn test:lint",
+      "problemMatcher": ["$eslint-stylish"],
+      "group": "test",
+      "label": "Lint"
+    },
+    {
+      "type": "shell",
+      "label": "Build VS Code extension - watch",
+      "command": "yarn workspace vzr-vscode run watch",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+export { shapeDevices } from "./shapeDevices";
