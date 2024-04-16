@@ -1,7 +1,14 @@
 {
   "name": "@devices/shaper",
   "version": "0.0.1",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    }
+  },
   "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
     "test:format": "prettier --check .",
     "test:lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --cache --cache-strategy content --cache-location .cache/eslint.json --max-warnings 0",
     "test:types": "tsc",
