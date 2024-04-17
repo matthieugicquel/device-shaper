@@ -1,6 +1,17 @@
 {
-  "name": "@devices/shaper",
-  "version": "0.0.1",
+  "name": "device-shaper",
+  "version": "0.0.0",
+  "description": "JS/TS APIs to manipulate iOS and Android simulators",
+  "homepage": "https://github.com/matthieugicquel/device-shaper#readme",
+  "repository": "github:matthieugicquel/device-shaper",
+  "bugs": {
+    "url": "https://github.com/matthieugicquel/device-shaper/issues"
+  },
+  "author": {
+    "name": "Matthieu Gicquel",
+    "email": "matthieug@bam.tech"
+  },
+  "license": "MIT",
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
@@ -9,6 +20,9 @@
   },
   "scripts": {
     "build": "tsc -p ./tsconfig.build.json",
+    "prepack": "tsc -p ./tsconfig.build.json",
+    "release": "np",
+    "test": "yarn test:format && yarn test:lint && yarn test:types",
     "test:format": "prettier --check .",
     "test:lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --cache --cache-strategy content --cache-location .cache/eslint.json --max-warnings 0",
     "test:types": "tsc",
@@ -46,11 +60,17 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "eslint-plugin-unused-imports": "^3.1.0",
+    "np": "^10.0.3",
     "prettier": "^3.2.5",
     "sucrase": "^3.35.0",
     "type-fest": "^4.15.0",
     "typescript": "^5.4.4"
   },
+  "files": [
+    "/dist/**/*.js",
+    "/dist/**/*.ts",
+    "/dist/**/*.map"
+  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-git"

@@ -1,6 +1,6 @@
-<h1 align="center">@devices/shaper 🏄‍♂️</h1>
+<h1 align="center">device-shaper 🏄‍♂️</h1>
 
-<p align="center"><i>JS/TS APIs to manipulate iOS and Android devices</i></p>
+<p align="center"><i>JS/TS APIs to manipulate iOS and Android simulators</i></p>
 
 ---
 
@@ -80,8 +80,8 @@ More seriously, the difference is that this lib is focused on providing these AP
 
 There is no delivery date for any of these features, but reach out if you want to help!
 
-- [] A full test suite
-- [] Support for all the platforms you can imagine (browser, TV, watches, VR, etc.)
-- [] Physical devices when it makes sense (android for starters, it shouldn't be too complicated)
-- [] More characteristics to shape (network, GPS, sensors, etc.)
-- [] More interactions (swipe, tap, etc.)
+- [ ] A full test suite
+- [ ] Support for all the platforms you can imagine (browser, TV, watches, VR, etc.)
+- [ ] Physical devices when it makes sense (android for starters, it shouldn't be too complicated)
+- [ ] More characteristics to shape (network, GPS, sensors, etc.)
+- [ ] More interactions (swipe, tap, etc.)
