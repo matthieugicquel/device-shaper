@@ -1,6 +1,6 @@
 {
   "name": "device-shaper",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "JS/TS APIs to manipulate iOS and Android simulators",
   "homepage": "https://github.com/matthieugicquel/device-shaper#readme",
   "repository": "github:matthieugicquel/device-shaper",
