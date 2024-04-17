@@ -30,7 +30,8 @@
   },
   "imports": {
     "#std/*": {
-      "default": "./src/std/*.ts"
+      "types": "./dist/src/std/*.d.ts",
+      "default": "./dist/src/std/*.js"
     }
   },
   "dependencies": {
