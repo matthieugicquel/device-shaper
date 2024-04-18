@@ -8,3 +8,5 @@ export { shape } from "./shape";
 export const listDevices = list;
 export const shapeDevice = shape;
 export const interactWith = interact;
+
+export type * from "./types";
