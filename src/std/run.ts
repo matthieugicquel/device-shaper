@@ -18,6 +18,21 @@ export const run = async (
   return result.stdout;
 };
 
+export const runToBuffer = async (
+  file: string,
+  args: string[],
+  options?: execa.Options,
+): Promise<Buffer> => {
+  debug("running %s", [file, ...(args ?? [])].join(" "));
+  const result = await execa(file, args, {
+    ...options,
+    encoding: null,
+  });
+  debug("ran     %s", result.command);
+
+  return result.stdout;
+};
+
 type RunDetachedOptions = {
   readyString: string;
   timeout: number;

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
+import assert from "node:assert";
 import { test } from "node:test";
 
 import { interactWith, listDevices, shapeDevice } from "./src/index";
@@ -43,6 +44,18 @@ test.skip("screenshot all already booted devices", async () => {
   await Promise.all(
     devices.map((device) => interactWith(device).screenshot(`./${device.platform}.png`)),
   );
+});
+
+test.skip("screenshot all already booted device to buffer", async () => {
+  const device = await shapeDevice({
+    platform: "ios",
+    state: "booted",
+  });
+
+  const buffer = await interactWith(device).screenshot();
+
+  assert(buffer instanceof Buffer);
+  assert(buffer.length > 1000);
 });
 
 test.skip("create iOS device - default model", async () => {

@@ -71,8 +71,13 @@ export type DeviceModifier<T> = {
   apply: (targetValue: T) => Promise<void>;
 };
 
+type ScreenhotFn = {
+  (destinationPath: string): Promise<void>;
+  (destinationPath?: undefined): Promise<Buffer>;
+};
+
 export type DeviceInteractors = {
-  screenshot: (destinationPath: string) => Promise<void>;
+  screenshot: ScreenhotFn;
 };
 
 export type DeviceShaper = {

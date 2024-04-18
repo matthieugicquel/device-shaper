@@ -8,7 +8,7 @@ import { createDebug } from "#std/debug";
 import { bug, todo } from "#std/error";
 import { readIniIfExists } from "#std/ini";
 import { createQuery } from "#std/query";
-import { run } from "#std/run";
+import { run, runToBuffer } from "#std/run";
 
 const debug = createDebug("android:helpers");
 
@@ -94,4 +94,16 @@ export const runAdb = async (avdId: string, args: string[], options?: execa.Opti
   }
 
   return run(executable, ["-s", adbId, ...args], options);
+};
+
+export const runAdbToBuffer = async (avdId: string, args: string[], options?: execa.Options) => {
+  const executable = await getAdbExecutable();
+
+  const adbId = await getAdbIdForAvd(avdId);
+
+  if (!adbId) {
+    throw bug("Trying to run adb command for an AVD that is not running");
+  }
+
+  return runToBuffer(executable, ["-s", adbId, ...args], options);
 };
