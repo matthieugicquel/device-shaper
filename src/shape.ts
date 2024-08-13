@@ -52,7 +52,7 @@ export const shape = async (target: DeviceTarget): Promise<DeviceId> => {
 
     const currentValue = await modifier.getCurrent();
 
-    if (currentValue && R.equals(currentValue, targetValue)) {
+    if (currentValue && R.isDeepEqual(currentValue, targetValue)) {
       debug(`[${target.platform}] modifier ${modifierKey} already matches`);
       continue;
     }
