@@ -3,7 +3,7 @@ import { noop } from "remeda";
 import { match } from "ts-pattern";
 
 import { todo } from "#std/error";
-import { runDetached } from "#std/run";
+import { isRunCommandError, runDetached } from "#std/run";
 
 import type { DeviceModifiers } from "../types";
 import { getEmulatorExecutable, runAdb } from "./helpers";
@@ -76,10 +76,18 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
 
         await match(targetValue)
           .with("shutdown", async () => {
+            // https://android.stackexchange.com/questions/47989/how-can-i-shutdown-my-android-phone-using-an-adb-command
             // https://stackoverflow.com/questions/20155376/android-stop-emulator-from-command-line#20155436
-            await runAdb(uniqueId, ["emu", "kill"]);
-            // TODO: Interesting errors
-            // emulator not booted -> error: could not connect to TCP port 5554: Connection refused
+            try {
+              await runAdb(uniqueId, ["emu", "kill"]);
+            } catch (error) {
+              if (!isRunCommandError(error)) throw error;
+
+              if (error.stderr.includes(": Connection refused")) {
+                // emulator not booted -> error: could not connect to TCP port 5554: Connection refused
+                return;
+              }
+            }
           })
           .with("booted", async () => {
             await runDetached(executable, ["-avd", uniqueId, "-no-audio", "-no-boot-anim"], {
