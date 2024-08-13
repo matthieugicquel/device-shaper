@@ -100,15 +100,7 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
         return undefined;
       },
       async apply(targetValue) {
-        await runAdb(uniqueId, [
-          "adb",
-          "shell",
-          "settings",
-          "put",
-          "global",
-          "sysui_demo_allowed",
-          "1",
-        ]);
+        await runAdb(uniqueId, ["shell", "settings", "put", "global", "sysui_demo_allowed", "1"]);
 
         if (targetValue.time) {
           await runAdb(uniqueId, [
