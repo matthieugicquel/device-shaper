@@ -75,6 +75,8 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
           if (error.exitCode === 149) return; // Unable to boot device in current state: Booted
 
           throw error;
+        } finally {
+          listSimulators.invalidate();
         }
       },
     },
