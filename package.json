@@ -26,7 +26,7 @@
     "test:format": "prettier --check .",
     "test:lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --cache --cache-strategy content --cache-location .cache/eslint.json --max-warnings 0",
     "test:types": "tsc",
-    "run-tester": "sucrase-node ./tester.ts"
+    "run-tester": "yarn build && sucrase-node ./tester.ts"
   },
   "imports": {
     "#std/*": {

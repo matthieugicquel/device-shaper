@@ -5,8 +5,25 @@ import { test } from "node:test";
 
 import { interactWith, listDevices, shapeDevice } from "./src/index";
 
-test.skip("boot 2 devices, no conditions", async () => {
-  const devices = await Promise.all([
+test("shutdown all running devices", async () => {
+  const devices = await listDevices({ state: "booted" });
+
+  await Promise.all(
+    devices.map((device) =>
+      shapeDevice({ platform: device.platform, uniqueId: device.uniqueId, state: "shutdown" }),
+    ),
+  );
+
+  const devicesAfterShutdown = await listDevices({ state: "booted" });
+
+  assert(
+    devicesAfterShutdown.length === 0,
+    `All devices should have been shutdown, found ${JSON.stringify(devicesAfterShutdown)}`,
+  );
+});
+
+test("boot 2 devices, no conditions", async () => {
+  await Promise.all([
     shapeDevice({
       platform: "ios",
       state: "booted",
@@ -19,21 +36,12 @@ test.skip("boot 2 devices, no conditions", async () => {
     }),
   ]);
 
-  console.log("results", devices);
-});
-
-test.skip("list device after booting", async () => {
-  await Promise.all([
-    shapeDevice({
-      platform: "ios",
-      state: "booted",
-      visibility: "visible",
-    }),
-  ]);
-
   const devices = await listDevices({ state: "booted" });
 
-  console.log("devices", devices);
+  assert(
+    devices.length >= 2,
+    `2 devices should have been booted, found ${JSON.stringify(devices)}`,
+  );
 });
 
 test.skip("screenshot all already booted devices", async () => {
