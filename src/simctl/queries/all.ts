@@ -6,7 +6,7 @@ import { run } from "#std/run";
 
 import type { DeviceModel } from "../../types";
 
-export const simctlList = createQuery(async () => {
+export const simctlList = createQuery(async function simctlList() {
   const simctlOutput = await run("xcrun", ["simctl", "list", "--json"]);
 
   return OutputSchema.parse(JSON.parse(simctlOutput));

@@ -6,7 +6,7 @@ import { run } from "#std/run";
 import type { DeviceDefinition } from "../../types";
 import { getEmulatorExecutable } from "../helpers";
 
-export const listDevices = createQuery(async () => {
+export const listDevices = createQuery(async function listAndroidAvds() {
   const executable = await getEmulatorExecutable();
 
   const stdout = await run(executable, ["-list-avds"]);

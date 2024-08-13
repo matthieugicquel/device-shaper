@@ -9,7 +9,7 @@ import { getAndroidSdkRoot } from "../helpers";
 
 const debug = createDebug("android:runtimes");
 
-export const listRuntimes = createQuery(async () => {
+export const listRuntimes = createQuery(async function listAndroidRuntimes() {
   const sdkRoot = await getAndroidSdkRoot();
 
   if (!sdkRoot) {

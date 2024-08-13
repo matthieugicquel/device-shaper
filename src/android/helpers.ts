@@ -12,7 +12,7 @@ import { run, runToBuffer } from "#std/run";
 
 const debug = createDebug("android:helpers");
 
-export const getAndroidSdkRoot = createQuery(async (): Promise<string | undefined> => {
+export const getAndroidSdkRoot = createQuery(async function getAndroidSdkRoot() {
   // Inspired by https://github.com/expo/orbit/blob/main/packages/eas-shared/src/run/android/sdk.ts
   if (process.env.ANDROID_HOME && (await pathExists(process.env.ANDROID_HOME))) {
     debug("using $ANDROID_HOME as SDK root", process.env.ANDROID_HOME);
