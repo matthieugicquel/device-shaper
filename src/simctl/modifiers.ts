@@ -6,7 +6,7 @@ import { ensureInPlistDict } from "#std/plist";
 import { isRunCommandError, run } from "#std/run";
 
 import type { DeviceModifiers } from "../types";
-import { getSimulatorDataFilePath } from "./helpers";
+import { getSimulatorDataFilePath, runSimctl } from "./helpers";
 import { listSimulators } from "./queries/devices";
 
 export const getModifiers = (uniqueId: string): DeviceModifiers => {
@@ -68,7 +68,7 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
           .exhaustive();
 
         try {
-          await run("xcrun", ["simctl", subcommand, uniqueId]);
+          await runSimctl([subcommand, uniqueId]);
         } catch (error) {
           if (!isRunCommandError(error)) throw error;
 
@@ -92,7 +92,7 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
 
         // TODO: warnings on broken versions https://federated.saagarjha.com/notice/AUwNsSsOOCWFc8qCvY
 
-        await run("xcrun", ["simctl", "status_bar", uniqueId, "override", ...params]);
+        await runSimctl(["status_bar", uniqueId, "override", ...params]);
       },
     },
 

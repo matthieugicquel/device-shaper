@@ -2,12 +2,12 @@ import { z } from "zod";
 
 import { bug } from "#std/error";
 import { createQuery } from "#std/query";
-import { run } from "#std/run";
 
 import type { DeviceModel } from "../../types";
+import { runSimctl } from "../helpers";
 
 export const simctlList = createQuery(async function simctlList() {
-  const simctlOutput = await run("xcrun", ["simctl", "list", "--json"]);
+  const simctlOutput = await runSimctl(["list", "--json"]);
 
   return OutputSchema.parse(JSON.parse(simctlOutput));
 });
