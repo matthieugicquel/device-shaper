@@ -30,6 +30,7 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
     },
 
     locale: {
+      requiresState: "shutdown",
       getCurrent() {
         return undefined;
       },
@@ -51,7 +52,6 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
           "TODO: manage rebooting (the locale won't be taken into account until the device is rebooted)",
         );
       },
-      requiresBoot: true,
     },
 
     state: {
@@ -83,8 +83,8 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
 
     statusBar: {
       getCurrent() {
-        // xcrun simctl status_bar <device> list
-        throw todo("statusBar getCurrent");
+        // TODO: xcrun simctl status_bar <device> list
+        return undefined;
       },
       async apply(targetValue) {
         const params: string[] = [];

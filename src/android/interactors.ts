@@ -12,5 +12,17 @@ export const getInteractors = (uniqueId: string): DeviceInteractors => {
 
       return runAdbToBuffer(uniqueId, ["exec-out", "screencap -p"]);
     },
+
+    async openURL(url) {
+      await runAdb(uniqueId, [
+        "shell",
+        "am",
+        "start",
+        "-a",
+        "android.intent.action.VIEW",
+        "-d",
+        url,
+      ]);
+    },
   };
 };

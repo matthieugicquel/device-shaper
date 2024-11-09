@@ -14,5 +14,9 @@ export const getInteractors = (uniqueId: string): DeviceInteractors => {
 
       return runToBuffer("xcrun", ["simctl", "io", uniqueId, "screenshot", "-"]);
     },
+
+    async openURL(url) {
+      await runSimctl(["openurl", uniqueId, url]);
+    },
   };
 };

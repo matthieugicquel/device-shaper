@@ -1,5 +1,5 @@
 /* eslint-disable require-await */
-import { noop } from "remeda";
+import { doNothing } from "remeda";
 import { match } from "ts-pattern";
 
 import { todo } from "#std/error";
@@ -11,7 +11,7 @@ import { getEmulatorExecutable, runAdb } from "./helpers";
 // READING: https://dev.to/larsonzhong/most-complete-adb-commands-4pcg
 
 export const getModifiers = (uniqueId: string): DeviceModifiers => {
-  const bootArgs = []; // TODO: naming and all does not make it very clear that this is stateful
+  const bootArgs = [];
 
   return {
     approvedSchemes: {
@@ -26,6 +26,7 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
     },
 
     locale: {
+      requiresState: "shutdown",
       // https://developer.android.com/guide/topics/resources/localization#creating-and-using-a-custom-locale
       // https://stackoverflow.com/questions/2417427/changing-the-android-emulator-locale-automatically
       // emulator -avd <avd-name> -change-language fr -change-country CA -change-locale fr-CA (when booting) -> causes boot cycle even when the locale is already the right one
@@ -43,22 +44,21 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
           country,
         );
       },
-      requiresBoot: true,
     },
 
     visibility: {
+      requiresState: "shutdown",
       async getCurrent() {
         return undefined;
       },
       async apply(targetValue) {
         match(targetValue)
-          .with("visible", noop) // this is the default
+          .with("visible", doNothing) // this is the default
           .with("headless", () => {
             bootArgs.push("-no-window");
           })
           .exhaustive();
       },
-      requiresBoot: true,
     },
 
     state: {
@@ -68,6 +68,7 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
           if (stdout.trim() === "1") return "booted";
           return "shutdown";
         } catch {
+          // adb: device 'emulator-5554' not found
           return "shutdown";
         }
       },
@@ -103,6 +104,7 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
     },
 
     statusBar: {
+      requiresState: "booted",
       // https://android.googlesource.com/platform/frameworks/base/+/master/packages/SystemUI/docs/demo_mode.md
       async getCurrent() {
         return undefined;

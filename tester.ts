@@ -44,10 +44,30 @@ test("boot 2 devices, no conditions", async () => {
   );
 });
 
-test.skip("screenshot all already booted devices", async () => {
+test("opens url", async () => {
   const devices = await listDevices({ state: "booted" });
 
-  console.log("devices", devices);
+  await Promise.all(devices.map((device) => interactWith(device).openURL("http://info.cern.ch")));
+});
+
+test("set status bar", async () => {
+  const devices = await listDevices({ state: "booted" });
+
+  await Promise.all(
+    devices.map((device) =>
+      shapeDevice({
+        platform: device.platform,
+        uniqueId: device.uniqueId,
+        statusBar: {
+          time: "05:42",
+        },
+      }),
+    ),
+  );
+});
+
+test("take screenshots", async () => {
+  const devices = await listDevices({ state: "booted" });
 
   await Promise.all(
     devices.map((device) => interactWith(device).screenshot(`./${device.platform}.png`)),

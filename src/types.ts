@@ -66,7 +66,7 @@ export type DeviceModifiers = {
 };
 
 export type DeviceModifier<T> = {
-  requiresBoot?: boolean;
+  requiresState?: "booted" | "shutdown";
   getCurrent: () => Awaitable<T | undefined>;
   apply: (targetValue: T) => Promise<void>;
 };
@@ -78,6 +78,7 @@ type ScreenhotFn = {
 
 export type DeviceInteractors = {
   screenshot: ScreenhotFn;
+  openURL: (url: string) => Promise<void>;
 };
 
 export type DeviceShaper = {
