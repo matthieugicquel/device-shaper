@@ -11,7 +11,7 @@ You'll have to figure it out yourself, this package is not ready for serious usa
 ## Creating or modifying devices
 
 ```ts
-import { shapeDevice } from "@devices/shaper";
+import { shapeDevice } from "device-shaper";
 
 // Just boot some emulator, not worrying about the details
 await shapeDevice({
