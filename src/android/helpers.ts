@@ -2,6 +2,7 @@ import type execa from "execa";
 import { pathExists, readdir } from "fs-extra";
 import os from "os";
 import path from "path";
+import psList from "ps-list";
 import { match } from "ts-pattern";
 
 import { createDebug } from "#std/debug";
@@ -106,4 +107,14 @@ export const runAdbToBuffer = async (avdId: string, args: string[], options?: ex
   }
 
   return runToBuffer(executable, ["-s", adbId, ...args], options);
+};
+
+export const getPidForAvdId = async (avdId: string) => {
+  const processes = await psList();
+
+  const emulatorProcess = processes.find(
+    (p) => p.name.includes("qemu-system") && p.cmd?.includes(avdId),
+  );
+
+  return emulatorProcess?.pid;
 };

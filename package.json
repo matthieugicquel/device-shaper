@@ -26,7 +26,7 @@
     "test:format": "prettier --check .",
     "test:lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --cache --cache-strategy content --cache-location .cache/eslint.json --max-warnings 0",
     "test:types": "tsc",
-    "run-tester": "yarn build && sucrase-node ./tester.ts"
+    "run-tester": "yarn build && DEBUG='*' sucrase-node ./tester.ts"
   },
   "imports": {
     "#std/*": {
@@ -41,9 +41,11 @@
     "fast-xml-parser": "^4.3.6",
     "fs-extra": "^11.2.0",
     "ini": "^4.1.2",
+    "ps-list": "^8.1.1",
     "remeda": "^1.58.0",
     "simple-plist": "1.4.0",
     "ts-pattern": "^5.1.1",
+    "wtfnode": "^0.9.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -51,6 +53,7 @@
     "@types/fs-extra": "^11",
     "@types/ini": "^4",
     "@types/node": "^20.11.25",
+    "@types/wtfnode": "^0",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "cz-git": "^1.9.1",

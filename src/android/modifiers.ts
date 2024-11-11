@@ -2,7 +2,7 @@
 import { doNothing } from "remeda";
 import { match } from "ts-pattern";
 
-import { todo } from "#std/error";
+import { todo, usageError } from "#std/error";
 import { isRunCommandError, runDetached } from "#std/run";
 
 import type { DeviceModifiers } from "../types";
@@ -11,7 +11,7 @@ import { getEmulatorExecutable, runAdb } from "./helpers";
 // READING: https://dev.to/larsonzhong/most-complete-adb-commands-4pcg
 
 export const getModifiers = (uniqueId: string): DeviceModifiers => {
-  const bootArgs = [];
+  const bootArgs: string[] = [];
 
   return {
     approvedSchemes: {
@@ -35,6 +35,10 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
       },
       async apply(targetValue) {
         const [language, country] = targetValue.split("-");
+        if (!language || !country) {
+          throw usageError(`Locale must be in the format "language-country" (got ${targetValue})`);
+        }
+
         bootArgs.push(
           "-change-locale",
           targetValue,
@@ -73,29 +77,51 @@ export const getModifiers = (uniqueId: string): DeviceModifiers => {
         }
       },
       async apply(targetValue) {
-        const executable = await getEmulatorExecutable();
-
         await match(targetValue)
           .with("shutdown", async () => {
             // https://android.stackexchange.com/questions/47989/how-can-i-shutdown-my-android-phone-using-an-adb-command
             // https://stackoverflow.com/questions/20155376/android-stop-emulator-from-command-line#20155436
             try {
-              await runAdb(uniqueId, ["emu", "kill"]);
+              await runAdb(uniqueId, ["emu", "kill"], {
+                env: {
+                  /*
+                   * Reasons for a "force kill" to be necessary:
+                   * - The "do you want to save a snpashot dialog"
+                   * - probably others
+                   * The default time is 20 seconds, we're keeping it but documenting
+                   */
+                  ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: "20", // in seconds
+                },
+              });
             } catch (error) {
-              if (!isRunCommandError(error)) throw error;
-
-              if (error.stderr.includes(": Connection refused")) {
+              if (isRunCommandError(error) && error.stderr.includes(": Connection refused")) {
                 // emulator not booted -> error: could not connect to TCP port 5554: Connection refused
+                // emulator is already shutdown
                 return;
               }
+
+              throw error;
             }
           })
           .with("booted", async () => {
-            await runDetached(executable, ["-avd", uniqueId, "-no-audio", "-no-boot-anim"], {
-              // NOTE: expo orbit checks this another way, by running an adb command
-              readyString: "| Boot completed",
-              timeout: 1000 * 60,
-            });
+            const executable = await getEmulatorExecutable();
+
+            await runDetached(
+              executable,
+              [
+                "-avd",
+                uniqueId,
+                "-no-audio",
+                "-no-boot-anim",
+                "-no-snapshot",
+                "-no-snapshot-save",
+                ...bootArgs,
+              ],
+              {
+                readyString: "| Boot completed",
+                timeout: 1000 * 60,
+              },
+            );
             // TODO: Interesting errors
             // ERROR   | Running multiple emulators with the same AVD
           })

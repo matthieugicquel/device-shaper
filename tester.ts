@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
 import assert from "node:assert";
-import { test } from "node:test";
+import { after, test } from "node:test";
+import wtf from "wtfnode";
 
 import { interactWith, listDevices, shapeDevice } from "./src/index";
 
@@ -116,4 +117,9 @@ test.skip("list all devices", async () => {
   const devices = await listDevices({});
 
   console.log("Devices", devices);
+});
+
+after(async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  wtf.dump();
 });
