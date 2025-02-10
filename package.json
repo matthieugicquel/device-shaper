@@ -19,6 +19,7 @@
     }
   },
   "scripts": {
+    "start-mcp-server": "npm run --workspace=mcp-server start",
     "build": "tsc -p ./tsconfig.build.json",
     "prepack": "tsc -p ./tsconfig.build.json",
     "release": "np",
@@ -48,6 +49,9 @@
     "wtfnode": "^0.9.3",
     "zod": "^3.22.4"
   },
+  "workspaces": [
+    "mcp-server"
+  ],
   "devDependencies": {
     "@types/debug": "^4",
     "@types/fs-extra": "^11",
