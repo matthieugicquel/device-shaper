@@ -1,8 +1,4 @@
 {
-  "workbench.colorCustomizations": {
-    "statusBar.background": "#9912c2",
-    "statusBar.foreground": "#e8e6e6"
-  },
   "files.trimFinalNewlines": true,
   "files.insertFinalNewline": true,
   "editor.formatOnSave": true,

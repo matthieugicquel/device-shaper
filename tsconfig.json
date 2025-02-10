@@ -9,25 +9,31 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
-    "noEmit": true,
+    "composite": true,
 
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
 
-    /* If transpiling with TypeScript: */
+    /* Module settings */
     "moduleResolution": "Bundler",
-    "module": "Preserve",
-    "outDir": "dist",
+    "module": "ESNext", // Changed from "Preserve"
+    "outDir": "./dist",
     "sourceMap": true,
 
-    /* AND if you're building for a library: */
+    /* Library settings */
     "declaration": true,
-
-    /* If your code doesn't run in the DOM: */
     "lib": ["es2022"],
 
-    "rootDir": "./",
+    /* Source settings */
+    "rootDir": "src", // Changed from "./"
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "include": ["src/**/*"], // Added include
+  "exclude": [
+    // Added exclude
+    "node_modules",
+    "dist",
+    "**/tests/**"
+  ]
 }

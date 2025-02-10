@@ -23,6 +23,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@device-shaper/mcp-server@workspace:mcp-server":
+  version: 0.0.0-use.local
+  resolution: "@device-shaper/mcp-server@workspace:mcp-server"
+  dependencies:
+    "@modelcontextprotocol/sdk": "npm:^1.4.1"
+    "@types/node": "npm:^22.13.1"
+    device-shaper: "workspace:*"
+    typescript: "npm:^5.7.3"
+    zod: "npm:^3.24.1"
+  bin:
+    device-shaper-mcp: ./build/index.js
+  languageName: unknown
+  linkType: soft
+
 "@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.4.1
   resolution: "@eslint-community/eslint-utils@npm:4.4.1"
@@ -1472,7 +1486,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"device-shaper@workspace:.":
+"device-shaper@workspace:*, device-shaper@workspace:.":
   version: 0.0.0-use.local
   resolution: "device-shaper@workspace:."
   dependencies:
@@ -3499,17 +3513,6 @@ __metadata:
   checksum: 10/11df2eda46d092a6035479632e1ec865b8134bdfc4bd9e571a656f4191525404f13a283a515938c3a8de934dbfd9c09674d9da9fa831e6eb7e22b50b197d2edd
   languageName: node
   linkType: hard
-
-"mcp-server@workspace:mcp-server":
-  version: 0.0.0-use.local
-  resolution: "mcp-server@workspace:mcp-server"
-  dependencies:
-    "@modelcontextprotocol/sdk": "npm:^1.4.1"
-    "@types/node": "npm:^22.13.1"
-    typescript: "npm:^5.7.3"
-    zod: "npm:^3.24.1"
-  languageName: unknown
-  linkType: soft
 
 "meow@npm:^13.2.0":
   version: 13.2.0

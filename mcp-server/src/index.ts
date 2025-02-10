@@ -3,31 +3,10 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
-import { list, shape, interactWith } from "../../src/index.js";
-import type {
-  DeviceDefinition,
-  DeviceId,
-  DeviceInteractors,
-  DeviceTarget,
-} from "../../src/types.js";
-
-const server = new Server(
-  {
-    name: "Device Shaper",
-    version: "1.0.0",
-  },
-  {
-    capabilities: {
-      tools: {},
-    },
-  },
-);
+import { list, shape, interactWith } from "device-shaper";
+import type { DeviceTarget } from "device-shaper";
 
 // Tool schemas and types
-type ListDevicesParams = z.infer<typeof listDevicesSchema>;
-type ShapeDeviceParams = z.infer<typeof shapeDeviceSchema>;
-type InteractDeviceParams = z.infer<typeof interactDeviceSchema>;
-
 const platformSchema = z.enum(["ios", "android"]);
 
 const listDevicesSchema = z.object({
@@ -62,6 +41,35 @@ const interactDeviceSchema = z.object({
     })
     .optional(),
 });
+
+type ListDevicesParams = z.infer<typeof listDevicesSchema>;
+type ShapeDeviceParams = z.infer<typeof shapeDeviceSchema>;
+type InteractDeviceParams = z.infer<typeof interactDeviceSchema>;
+
+const server = new Server(
+  {
+    name: "Device Shaper",
+    version: "1.0.0",
+  },
+  {
+    capabilities: {
+      tools: {
+        list_devices: {
+          description: "List available iOS/Android devices",
+          inputSchema: listDevicesSchema,
+        },
+        shape_device: {
+          description: "Configure device characteristics",
+          inputSchema: shapeDeviceSchema,
+        },
+        interact_with_device: {
+          description: "Interact with a device",
+          inputSchema: interactDeviceSchema,
+        },
+      },
+    },
+  },
+);
 
 // Register tools
 server.setRequestHandler(ListToolsRequestSchema, async () => ({

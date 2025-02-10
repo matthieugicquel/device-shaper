@@ -12,10 +12,13 @@
     "email": "matthieug@bam.tech"
   },
   "license": "MIT",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
-      "default": "./dist/src/index.js"
+      "import": "./dist/src/index.js",
+      "require": "./dist/src/index.js"
     }
   },
   "scripts": {
@@ -84,5 +87,6 @@
       "path": "./node_modules/cz-git"
     }
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "type": "module"
 }
