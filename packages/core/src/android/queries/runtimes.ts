@@ -1,4 +1,4 @@
-import glob from "fast-glob";
+import { glob } from "tinyglobby";
 
 import { createDebug } from "#std/debug";
 import { bug, fixYourInstall } from "#std/error";

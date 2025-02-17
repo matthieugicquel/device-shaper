@@ -1,5 +1,5 @@
 import type execa from "execa";
-import fsExtra from "fs-extra";
+import { readdirSync } from "fs";
 import os from "os";
 import path from "path";
 import psList from "ps-list";
@@ -7,21 +7,22 @@ import { match } from "ts-pattern";
 
 import { createDebug } from "#std/debug";
 import { bug, todo } from "#std/error";
+import { pathExists } from "#std/fs";
 import { readIniIfExists } from "#std/ini";
 import { createQuery } from "#std/query";
 import { run, runToBuffer } from "#std/run";
 
 const debug = createDebug("android:helpers");
 
-export const getAndroidSdkRoot = createQuery(async function getAndroidSdkRoot() {
+export const getAndroidSdkRoot = createQuery(function getAndroidSdkRoot() {
   // Inspired by https://github.com/expo/orbit/blob/main/packages/eas-shared/src/run/android/sdk.ts
-  if (process.env.ANDROID_HOME && (await fsExtra.pathExists(process.env.ANDROID_HOME))) {
+  if (process.env.ANDROID_HOME && pathExists(process.env.ANDROID_HOME)) {
     debug("using $ANDROID_HOME as SDK root", process.env.ANDROID_HOME);
 
     return process.env.ANDROID_HOME;
   }
 
-  if (process.env.ANDROID_SDK_ROOT && (await fsExtra.pathExists(process.env.ANDROID_SDK_ROOT))) {
+  if (process.env.ANDROID_SDK_ROOT && pathExists(process.env.ANDROID_SDK_ROOT)) {
     debug("using $ANDROID_SDK_ROOT as SDK root", process.env.ANDROID_SDK_ROOT);
 
     return process.env.ANDROID_SDK_ROOT;
@@ -32,7 +33,7 @@ export const getAndroidSdkRoot = createQuery(async function getAndroidSdkRoot() 
     .with("win32", () => path.join(os.homedir(), "AppData", "Local", "Android", "Sdk"))
     .otherwise(() => path.join(os.homedir(), "Android", "Sdk")); // default to the linux location
 
-  if (defaultLocation && (await fsExtra.pathExists(defaultLocation))) {
+  if (defaultLocation && pathExists(defaultLocation)) {
     debug("using default location as SDK root", process.env.ANDROID_SDK_ROOT);
 
     return defaultLocation;
@@ -73,9 +74,7 @@ const getAdbIdForAvd = async (avdId: string): Promise<string | undefined> => {
   // We can map an avd to a serial port by looking at the files in the emulator advertising directory
   const advertisingDir = getEmulatorAdvertisingDir();
 
-  const filenames = (await fsExtra.pathExists(advertisingDir))
-    ? await fsExtra.readdir(advertisingDir)
-    : [];
+  const filenames = pathExists(advertisingDir) ? readdirSync(advertisingDir) : [];
 
   debug(`scanned %p in emulator advertising dir: %o`, advertisingDir, filenames);
 

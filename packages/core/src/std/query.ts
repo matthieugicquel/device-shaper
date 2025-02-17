@@ -1,5 +1,7 @@
 import { createDebug } from "#std/debug";
 
+import type { Awaitable } from "#src/std/types";
+
 type Query<TData> = {
   (): Promise<TData>;
   invalidate: () => void;
@@ -9,10 +11,10 @@ type Query<TData> = {
 type QueryState<TData> =
   | { status: "success"; data: TData }
   | { status: "error"; error: unknown }
-  | { status: "pending"; promise: Promise<TData> }
+  | { status: "pending"; promise: Awaitable<TData> }
   | { status: "idle" };
 
-export const createQuery = <TData>(queryFn: () => Promise<TData>): Query<TData> => {
+export const createQuery = <TData>(queryFn: () => Awaitable<TData>): Query<TData> => {
   const debug = createDebug(`std:query:${queryFn.name || "anonymous"}`);
 
   let cache: QueryState<TData> = { status: "idle" };
