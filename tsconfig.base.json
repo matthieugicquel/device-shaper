@@ -17,7 +17,7 @@
 
     /* Module settings */
     "moduleResolution": "Bundler",
-    "module": "ESNext", // Changed from "Preserve"
+    "module": "Preserve",
     "sourceMap": true,
 
     /* Library settings */

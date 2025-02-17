@@ -5,6 +5,7 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprot
 import { z } from "zod";
 import { list, shape, interactWith } from "device-shaper";
 import type { DeviceTarget } from "device-shaper";
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 // Tool schemas and types
 const platformSchema = z.enum(["ios", "android"]);
@@ -77,17 +78,17 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: "list_devices",
       description: "List available iOS/Android devices",
-      inputSchema: listDevicesSchema,
+      inputSchema: zodToJsonSchema(listDevicesSchema),
     },
     {
       name: "shape_device",
       description: "Configure device characteristics",
-      inputSchema: shapeDeviceSchema,
+      inputSchema: zodToJsonSchema(shapeDeviceSchema),
     },
     {
       name: "interact_with_device",
       description: "Interact with a device",
-      inputSchema: interactDeviceSchema,
+      inputSchema: zodToJsonSchema(interactDeviceSchema),
     },
   ],
 }));
@@ -99,7 +100,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     case "list_devices": {
       const { platform, filters } = args as ListDevicesParams;
       const devices = await list({ platform, ...filters });
-      return { devices };
+      return {
+        content: [{ type: "text", text: JSON.stringify(devices) }],
+      };
     }
 
     case "shape_device": {
@@ -110,7 +113,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         ...target,
       } as any as DeviceTarget;
       const device = await shape(deviceTarget);
-      return { device };
+      return {
+        content: [{ type: "text", text: JSON.stringify(device) }],
+      };
     }
 
     case "interact_with_device": {
@@ -121,17 +126,25 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         case "screenshot":
           if (params.path) {
             await device.screenshot(params.path);
-            return { success: true };
+            return {
+              content: [{ type: "text", text: JSON.stringify({ success: true }) }],
+            };
           } else {
             const buffer = await device.screenshot();
-            return { screenshot: buffer.toString("base64") };
+            return {
+              content: [
+                { type: "text", text: JSON.stringify({ screenshot: buffer.toString("base64") }) },
+              ],
+            };
           }
         case "open_url":
           if (!params.url) {
             throw new Error("URL is required for open_url action");
           }
           await device.openURL(params.url);
-          return { success: true };
+          return {
+            content: [{ type: "text", text: JSON.stringify({ success: true }) }],
+          };
       }
     }
   }

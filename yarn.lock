@@ -3515,6 +3515,7 @@ __metadata:
     device-shaper: "workspace:*"
     typescript: "npm:^5.7.3"
     zod: "npm:^3.24.1"
+    zod-to-json-schema: "npm:^3.24.1"
   bin:
     device-shaper-mcp: ./dist/index.js
   languageName: unknown

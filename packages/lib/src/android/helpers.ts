@@ -1,5 +1,6 @@
 import type execa from "execa";
-import { pathExists, readdir } from "fs-extra";
+import { readdir as fsReaddir, access } from "fs/promises";
+
 import os from "os";
 import path from "path";
 import psList from "ps-list";
@@ -12,6 +13,16 @@ import { createQuery } from "#std/query";
 import { run, runToBuffer } from "#std/run";
 
 const debug = createDebug("android:helpers");
+
+const readdir = (path: string): Promise<string[]> => fsReaddir(path);
+const pathExists = async (path: string) => {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 export const getAndroidSdkRoot = createQuery(async function getAndroidSdkRoot() {
   // Inspired by https://github.com/expo/orbit/blob/main/packages/eas-shared/src/run/android/sdk.ts
