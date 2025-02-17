@@ -3,16 +3,13 @@
     "target": "ES2022",
     "module": "Node16",
     "moduleResolution": "Node16",
-    "outDir": "./build",
-    "rootDir": "./src",
+    "outDir": "./dist",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "composite": true,
-    "declaration": true
+    "forceConsistentCasingInFileNames": true
   },
-  "references": [{ "path": "../tsconfig.build.json" }],
   "include": ["src"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "dist"]
 }

@@ -4,6 +4,7 @@
   "scripts": {
     "start-mcp-server": "npm run --workspace=mcp-server start",
     "build": "yarn workspace device-shaper run build",
+    "build:server": "yarn workspace mcp-server run build",
     "prepack": "yarn workspace device-shaper run prepack",
     "test": "yarn workspaces device-shaper run test",
     "test:lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --cache --cache-strategy content --cache-location .cache/eslint.json --max-warnings 0",

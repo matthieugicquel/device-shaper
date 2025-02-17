@@ -40,8 +40,8 @@
   },
   "type": "module",
   "files": [
-    "/dist/**/*.js",
-    "/dist/**/*.ts",
-    "/dist/**/*.map"
+    "./dist/**/*.js",
+    "./dist/**/*.ts",
+    "./dist/**/*.map"
   ]
 }

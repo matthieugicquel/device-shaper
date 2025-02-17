@@ -15,7 +15,7 @@ Add :
   "mcpServers": {
     "device-shaper": {
       "command": "node",
-      "args": ["/absolute-path-to-repository/mcp-server/build/index.js"]
+      "args": ["/absolute-path-to-repository/packages/mcp-server/dist/src/index.js"]
     }
   }
 }
