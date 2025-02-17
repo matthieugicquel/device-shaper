@@ -23,9 +23,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@device-shaper/mcp-server@workspace:mcp-server":
+"@device-shaper/mcp-server@workspace:packages/mcp-server":
   version: 0.0.0-use.local
-  resolution: "@device-shaper/mcp-server@workspace:mcp-server"
+  resolution: "@device-shaper/mcp-server@workspace:packages/mcp-server"
   dependencies:
     "@modelcontextprotocol/sdk": "npm:^1.4.1"
     "@types/node": "npm:^22.13.1"
@@ -1486,9 +1486,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"device-shaper@workspace:*, device-shaper@workspace:.":
+"device-shaper-monorepo@workspace:.":
   version: 0.0.0-use.local
-  resolution: "device-shaper@workspace:."
+  resolution: "device-shaper-monorepo@workspace:."
   dependencies:
     "@types/debug": "npm:^4"
     "@types/fs-extra": "npm:^11"
@@ -1522,6 +1522,12 @@ __metadata:
     typescript: "npm:^5.4.4"
     wtfnode: "npm:^0.9.3"
     zod: "npm:^3.22.4"
+  languageName: unknown
+  linkType: soft
+
+"device-shaper@workspace:*, device-shaper@workspace:packages/lib":
+  version: 0.0.0-use.local
+  resolution: "device-shaper@workspace:packages/lib"
   languageName: unknown
   linkType: soft
 

@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
-    "composite": true,
+    // "noEmit": true,
 
     /* Strictness */
     "strict": true,
@@ -18,7 +18,6 @@
     /* Module settings */
     "moduleResolution": "Bundler",
     "module": "ESNext", // Changed from "Preserve"
-    "outDir": "./dist",
     "sourceMap": true,
 
     /* Library settings */
@@ -26,14 +25,8 @@
     "lib": ["es2022"],
 
     /* Source settings */
-    "rootDir": "src", // Changed from "./"
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*"], // Added include
-  "exclude": [
-    // Added exclude
-    "node_modules",
-    "dist",
-    "**/tests/**"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/tests/**"]
 }
