@@ -1,5 +1,5 @@
 .cache
 .yarn
-coverage,
+coverage
 dist
 node_modules

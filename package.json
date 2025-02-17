@@ -1,84 +1,32 @@
 {
-  "name": "device-shaper",
-  "version": "0.0.3",
-  "description": "JS/TS APIs to manipulate iOS and Android simulators",
-  "homepage": "https://github.com/matthieugicquel/device-shaper#readme",
-  "repository": "github:matthieugicquel/device-shaper",
-  "bugs": {
-    "url": "https://github.com/matthieugicquel/device-shaper/issues"
-  },
-  "author": {
-    "name": "Matthieu Gicquel",
-    "email": "matthieug@bam.tech"
-  },
-  "license": "MIT",
-  "exports": {
-    ".": {
-      "types": "./dist/src/index.d.ts",
-      "default": "./dist/src/index.js"
-    }
-  },
+  "name": "device-shaper-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "type": "module",
   "scripts": {
-    "build": "tsc -p ./tsconfig.build.json",
-    "prepack": "tsc -p ./tsconfig.build.json",
-    "release": "np",
+    "build": "yarn workspaces foreach --all --topological run build",
     "test": "yarn test:format && yarn test:lint && yarn test:types",
     "test:format": "prettier --check .",
-    "test:lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --cache --cache-strategy content --cache-location .cache/eslint.json --max-warnings 0",
-    "test:types": "tsc",
-    "run-tester": "yarn build && DEBUG='*' sucrase-node ./tester.ts"
-  },
-  "imports": {
-    "#std/*": {
-      "types": "./dist/src/std/*.d.ts",
-      "default": "./dist/src/std/*.js"
-    }
-  },
-  "dependencies": {
-    "debug": "^4.3.4",
-    "execa": "^5.1.1",
-    "fast-glob": "^3.3.2",
-    "fast-xml-parser": "^4.3.6",
-    "fs-extra": "^11.2.0",
-    "ini": "^4.1.2",
-    "ps-list": "^8.1.1",
-    "remeda": "^1.58.0",
-    "simple-plist": "1.4.0",
-    "ts-pattern": "^5.1.1",
-    "wtfnode": "^0.9.3",
-    "zod": "^3.22.4"
+    "test:lint": "eslint --report-unused-disable-directives --cache --cache-strategy content --cache-location .cache/eslint.json --max-warnings 0",
+    "test:types": "yarn workspaces foreach --all --topological run test:types"
   },
   "devDependencies": {
-    "@types/debug": "^4",
-    "@types/fs-extra": "^11",
-    "@types/ini": "^4",
-    "@types/node": "^20.11.25",
-    "@types/wtfnode": "^0",
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
-    "@typescript-eslint/parser": "^7.6.0",
-    "cz-git": "^1.9.1",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-define-config": "^2.1.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-simple-import-sort": "^12.0.0",
-    "eslint-plugin-unused-imports": "^3.1.0",
-    "np": "^10.0.3",
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-import-resolver-typescript": "^3.8.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "prettier": "^3.2.5",
-    "sucrase": "^3.35.0",
-    "type-fest": "^4.15.0",
-    "typescript": "^5.4.4"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.1"
   },
-  "files": [
-    "/dist/**/*.js",
-    "/dist/**/*.ts",
-    "/dist/**/*.map"
-  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-git"
     }
-  },
-  "packageManager": "yarn@4.1.1"
+  }
 }

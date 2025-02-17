@@ -1,0 +1,62 @@
+{
+  "name": "device-shaper",
+  "version": "0.0.3",
+  "description": "JS/TS APIs to manipulate iOS and Android simulators",
+  "homepage": "https://github.com/matthieugicquel/device-shaper#readme",
+  "repository": "github:matthieugicquel/device-shaper",
+  "bugs": {
+    "url": "https://github.com/matthieugicquel/device-shaper/issues"
+  },
+  "author": {
+    "name": "Matthieu Gicquel",
+    "email": "matthieu.gicquel@theodo.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "engines": {
+    "node": ">=23.8"
+  },
+  "imports": {
+    "#src/*": "./src/*.ts",
+    "#std/*": "./src/std/*.ts"
+  },
+  "files": [
+    "src/**/*.ts"
+  ],
+  "scripts": {
+    "build": "echo 'Package only distributed as TS for now, use a recent version of NodeJS'",
+    "prepack": "echo 'Package only distributed as TS for now, use a recent version of NodeJS'",
+    "release": "np",
+    "test": "yarn test:types",
+    "test:types": "tsc",
+    "run-tester": "DEBUG='*' node ./tester.ts"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "execa": "^5.1.1",
+    "fast-glob": "^3.3.2",
+    "fast-xml-parser": "^4.3.6",
+    "fs-extra": "^11.2.0",
+    "ini": "^4.1.2",
+    "ps-list": "^8.1.1",
+    "remeda": "^1.58.0",
+    "simple-plist": "1.4.0",
+    "ts-pattern": "^5.1.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/debug": "^4",
+    "@types/fs-extra": "^11",
+    "@types/ini": "^4",
+    "@types/node": "^20.11.25",
+    "@types/wtfnode": "^0",
+    "cz-git": "^1.9.1",
+    "np": "^10.0.3",
+    "type-fest": "^4.15.0",
+    "typescript": "^5.7.3",
+    "wtfnode": "^0.9.3"
+  }
+}
