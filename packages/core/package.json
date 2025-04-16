@@ -12,27 +12,35 @@
     "email": "matthieu.gicquel@theodo.com"
   },
   "license": "MIT",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.ts"
-  },
   "engines": {
     "node": ">=23.8"
   },
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "imports": {
-    "#src/*": "./src/*.ts",
-    "#std/*": "./src/std/*.ts"
+    "#src/*": {
+      "node": "./dist/*.js",
+      "source": "./src/*.ts",
+      "types": "./dist/*.d.ts"
+    },
+    "#std/*": {
+      "node": "./dist/std/*.js",
+      "source": "./src/std/*.ts",
+      "types": "./dist/std/*.d.ts"
+    }
   },
   "files": [
-    "src/**/*.ts"
+    "dist/**/*"
   ],
   "scripts": {
-    "build": "echo 'Package only distributed as TS for now, use a recent version of NodeJS'",
-    "prepack": "echo 'Package only distributed as TS for now, use a recent version of NodeJS'",
+    "build": "tsc",
+    "prepack": "yarn build",
     "release": "np",
     "test": "yarn test:types",
     "test:types": "tsc",
-    "run-tester": "DEBUG='*' node ./tester.ts"
+    "run-tester": "yarn build && DEBUG='*' node ./dist/tester.js"
   },
   "dependencies": {
     "debug": "^4.3.4",
@@ -43,7 +51,7 @@
     "remeda": "^1.58.0",
     "simple-plist": "1.4.0",
     "tinyglobby": "^0.2.11",
-    "ts-pattern": "^5.1.1",
+    "ts-pattern": "^5.6.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -53,6 +61,7 @@
     "@types/wtfnode": "^0",
     "np": "^10.0.3",
     "type-fest": "^4.15.0",
+    "typescript": "^5.7.3",
     "wtfnode": "^0.9.3"
   }
 }

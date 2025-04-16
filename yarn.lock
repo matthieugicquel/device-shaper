@@ -1358,8 +1358,9 @@ __metadata:
     remeda: "npm:^1.58.0"
     simple-plist: "npm:1.4.0"
     tinyglobby: "npm:^0.2.11"
-    ts-pattern: "npm:^5.1.1"
+    ts-pattern: "npm:^5.6.2"
     type-fest: "npm:^4.15.0"
+    typescript: "npm:^5.7.3"
     wtfnode: "npm:^0.9.3"
     zod: "npm:^3.22.4"
   languageName: unknown
@@ -4895,10 +4896,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-pattern@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "ts-pattern@npm:5.1.1"
-  checksum: 10/3c46863c98b8e489b14511c4a4c0b5b5ffcb2ed353f02bb5bf4db88f80fa2aeb9db2ee378d9e87035bcbbf23c20f8156eb162d9e9335237f535ef54747a71bcc
+"ts-pattern@npm:^5.6.2":
+  version: 5.6.2
+  resolution: "ts-pattern@npm:5.6.2"
+  checksum: 10/7eea891a2653650793143e058a6b488c9931444996234bfb71f569528e8aa55decdc13266b710135757614c4eaa1e8cb9015c46ccfd258a5bd81e5e86c2d1dcb
   languageName: node
   linkType: hard
 
@@ -5060,11 +5061,11 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A^5.7.3#optional!builtin<compat/typescript>":
   version: 5.7.3
-  resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5adc0c"
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/3ac7b7e3e899273d2fbdce6e24b93d4d53a705ad7a7e4cc83b4c57bcb6d25948abcd2a21994f6b9c73ab03960f395aae95f0458de292a66ce0134233261714c3
+  checksum: 10/dc58d777eb4c01973f7fbf1fd808aad49a0efdf545528dab9b07d94fdcb65b8751742804c3057e9619a4627f2d9cc85547fdd49d9f4326992ad0181b49e61d81
   languageName: node
   linkType: hard
 

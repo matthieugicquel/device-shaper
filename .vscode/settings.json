@@ -23,5 +23,6 @@
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.test.ts",
     "*.tsx": "${capture}.test.tsx"
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

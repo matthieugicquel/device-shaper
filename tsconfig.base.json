@@ -2,15 +2,15 @@
   "compilerOptions": {
     "composite": true,
 
-    // Enable latest features
     "lib": ["ESNext"],
     "target": "ESNext",
-    "module": "Preserve",
-    "moduleDetection": "force",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonImports": true,
+    "declaration": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
     "allowJs": true,
-
-    // Bundler mode
-    "verbatimModuleSyntax": true,
 
     // Best practices
     "strict": true,
