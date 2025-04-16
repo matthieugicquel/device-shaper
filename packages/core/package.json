@@ -34,13 +34,18 @@
   "files": [
     "dist/**/*"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "tsc",
     "prepack": "yarn build",
-    "release": "np",
     "test": "yarn test:types",
     "test:types": "tsc",
-    "run-tester": "yarn build && DEBUG='*' node ./dist/tester.js"
+    "run-tester": "yarn build && DEBUG='*' node ./dist/tester.js",
+    "release": "GITHUB_TOKEN=$(gh auth token) release-it",
+    "release:next": "RELEASE_TYPE=next GITHUB_TOKEN=$(gh auth token) release-it prerelease --preRelease=next"
   },
   "dependencies": {
     "debug": "^4.3.4",
@@ -59,9 +64,10 @@
     "@types/ini": "^4",
     "@types/node": "^22",
     "@types/wtfnode": "^0",
-    "np": "^10.0.3",
+    "release-it": "^18.1.2",
     "type-fest": "^4.15.0",
     "typescript": "^5.7.3",
     "wtfnode": "^0.9.3"
-  }
+  },
+  "packageManager": "yarn@4.6.0"
 }

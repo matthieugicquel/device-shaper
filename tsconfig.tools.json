@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.base.json",
+  "files": ["./packages/core/.release-it.ts"]
+}
